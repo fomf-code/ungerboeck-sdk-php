@@ -536,8 +536,8 @@ paths:
           description: OK
           schema:
             type: array
-              items:
-                $ref: '#/definitions/AccountsProductsAndServicesModel'
+            items:
+              $ref: '#/definitions/AccountsProductsAndServicesModel'
           examples:
             application/json:
               - OrganizationCode: '10'
