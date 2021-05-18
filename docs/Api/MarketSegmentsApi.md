@@ -4,14 +4,14 @@ All URIs are relative to *https://fomf.ungerboeck.com/TEST*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**marketSegmentsGetMarketSegment**](MarketSegmentsApi.md#marketSegmentsGetMarketSegment) | **GET** /api/v1/MarketSegments/{OrgCode}/{Major}/{Minor} | Basic - Get a single market segment by its parameters
-[**marketSegmentsGetMarketSegmentList**](MarketSegmentsApi.md#marketSegmentsGetMarketSegmentList) | **GET** /api/v1/MarketSegments/{OrgCode} | Basic - Search for market segment using OData.
+[**marketSegmentsGetMarketSegments**](MarketSegmentsApi.md#marketSegmentsGetMarketSegments) | **GET** /api/v1/MarketSegments/{OrgCode}/{Major}/{Minor} | Get an market segment by its parameters
+[**marketSegmentsGetMarketSegmentsList**](MarketSegmentsApi.md#marketSegmentsGetMarketSegmentsList) | **GET** /api/v1/MarketSegments/{OrgCode} | Search for market segment using OData.
 
 
-# **marketSegmentsGetMarketSegment**
-> \FomF\Ungerboeck\Client\Model\MarketSegmentsModel marketSegmentsGetMarketSegment($org_code, $major, $minor)
+# **marketSegmentsGetMarketSegments**
+> \FomF\Ungerboeck\Client\Model\MarketSegmentsModel marketSegmentsGetMarketSegments($org_code, $major, $minor)
 
-Basic - Get a single market segment by its parameters
+Get an market segment by its parameters
 
 ### Example
 ```php
@@ -28,10 +28,10 @@ $major = "major_example"; // string | The major code of the market segment.
 $minor = "minor_example"; // string | The minor code of the market segment.
 
 try {
-    $result = $apiInstance->marketSegmentsGetMarketSegment($org_code, $major, $minor);
+    $result = $apiInstance->marketSegmentsGetMarketSegments($org_code, $major, $minor);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling MarketSegmentsApi->marketSegmentsGetMarketSegment: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling MarketSegmentsApi->marketSegmentsGetMarketSegments: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -59,10 +59,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **marketSegmentsGetMarketSegmentList**
-> \FomF\Ungerboeck\Client\Model\MarketSegmentsModel marketSegmentsGetMarketSegmentList($org_code, $search)
+# **marketSegmentsGetMarketSegmentsList**
+> \FomF\Ungerboeck\Client\Model\MarketSegmentsModel[] marketSegmentsGetMarketSegmentsList($org_code, $search)
 
-Basic - Search for market segment using OData.
+Search for market segment using OData.
 
 ### Example
 ```php
@@ -75,13 +75,13 @@ $apiInstance = new FomF\Ungerboeck\Client\Api\MarketSegmentsApi(
     new GuzzleHttp\Client()
 );
 $org_code = "org_code_example"; // string | The organization code in which the search will take place
-$search = "search_example"; // string | <a href=\"https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\">How to make an Ungerboeck API search</a>
+$search = "search_example"; // string | Search string using OData with model properties for the filter, Page and Page_Size to navigate
 
 try {
-    $result = $apiInstance->marketSegmentsGetMarketSegmentList($org_code, $search);
+    $result = $apiInstance->marketSegmentsGetMarketSegmentsList($org_code, $search);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling MarketSegmentsApi->marketSegmentsGetMarketSegmentList: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling MarketSegmentsApi->marketSegmentsGetMarketSegmentsList: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -91,11 +91,11 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **org_code** | **string**| The organization code in which the search will take place |
- **search** | **string**| &lt;a href&#x3D;\&quot;https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\&quot;&gt;How to make an Ungerboeck API search&lt;/a&gt; |
+ **search** | **string**| Search string using OData with model properties for the filter, Page and Page_Size to navigate |
 
 ### Return type
 
-[**\FomF\Ungerboeck\Client\Model\MarketSegmentsModel**](../Model/MarketSegmentsModel.md)
+[**\FomF\Ungerboeck\Client\Model\MarketSegmentsModel[]**](../Model/MarketSegmentsModel.md)
 
 ### Authorization
 

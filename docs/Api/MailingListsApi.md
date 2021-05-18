@@ -4,14 +4,14 @@ All URIs are relative to *https://fomf.ungerboeck.com/TEST*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**mailingListsGetMailingList**](MailingListsApi.md#mailingListsGetMailingList) | **GET** /api/v1/MailingLists/{OrgCode}/{ID} | Standard - Get a single mailing list entry by its parameters
-[**mailingListsGetMailingListList**](MailingListsApi.md#mailingListsGetMailingListList) | **GET** /api/v1/MailingLists/{OrgCode} | Standard - Search for mailing list using OData.
+[**mailingListsGetMailing**](MailingListsApi.md#mailingListsGetMailing) | **GET** /api/v1/MailingLists/{OrgCode}/{ID} | Get a mailing list by its parameters
+[**mailingListsGetMailingList**](MailingListsApi.md#mailingListsGetMailingList) | **GET** /api/v1/MailingLists/{OrgCode} | Search for mailing list using OData.
 
 
-# **mailingListsGetMailingList**
-> \FomF\Ungerboeck\Client\Model\MailingListsModel mailingListsGetMailingList($org_code, $id)
+# **mailingListsGetMailing**
+> \FomF\Ungerboeck\Client\Model\MailingListsModel mailingListsGetMailing($org_code, $id)
 
-Standard - Get a single mailing list entry by its parameters
+Get a mailing list by its parameters
 
 ### Example
 ```php
@@ -27,10 +27,10 @@ $org_code = "org_code_example"; // string | The organization code of the mailing
 $id = 56; // int | The ID of the mailing list.
 
 try {
-    $result = $apiInstance->mailingListsGetMailingList($org_code, $id);
+    $result = $apiInstance->mailingListsGetMailing($org_code, $id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling MailingListsApi->mailingListsGetMailingList: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling MailingListsApi->mailingListsGetMailing: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -57,10 +57,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **mailingListsGetMailingListList**
-> \FomF\Ungerboeck\Client\Model\MailingListsModel mailingListsGetMailingListList($org_code, $search)
+# **mailingListsGetMailingList**
+> \FomF\Ungerboeck\Client\Model\MailingListsModel[] mailingListsGetMailingList($org_code, $search)
 
-Standard - Search for mailing list using OData.
+Search for mailing list using OData.
 
 ### Example
 ```php
@@ -73,13 +73,13 @@ $apiInstance = new FomF\Ungerboeck\Client\Api\MailingListsApi(
     new GuzzleHttp\Client()
 );
 $org_code = "org_code_example"; // string | The organization code in which the search will take place
-$search = "search_example"; // string | <a href=\"https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\">How to make an Ungerboeck API search</a>
+$search = "search_example"; // string | Search string using OData with model properties for the filter, Page and Page_Size to navigate
 
 try {
-    $result = $apiInstance->mailingListsGetMailingListList($org_code, $search);
+    $result = $apiInstance->mailingListsGetMailingList($org_code, $search);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling MailingListsApi->mailingListsGetMailingListList: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling MailingListsApi->mailingListsGetMailingList: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -89,11 +89,11 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **org_code** | **string**| The organization code in which the search will take place |
- **search** | **string**| &lt;a href&#x3D;\&quot;https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\&quot;&gt;How to make an Ungerboeck API search&lt;/a&gt; |
+ **search** | **string**| Search string using OData with model properties for the filter, Page and Page_Size to navigate |
 
 ### Return type
 
-[**\FomF\Ungerboeck\Client\Model\MailingListsModel**](../Model/MailingListsModel.md)
+[**\FomF\Ungerboeck\Client\Model\MailingListsModel[]**](../Model/MailingListsModel.md)
 
 ### Authorization
 

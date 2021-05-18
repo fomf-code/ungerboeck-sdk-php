@@ -4,18 +4,18 @@ All URIs are relative to *https://fomf.ungerboeck.com/TEST*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**documentsDeleteDocument**](DocumentsApi.md#documentsDeleteDocument) | **DELETE** /api/v1/Documents/{OrgCode}/{Type}/{SequenceNumber} | Standard - Delete a Document entry from Ungerboeck
-[**documentsDownload**](DocumentsApi.md#documentsDownload) | **GET** /api/v1/Documents/{OrgCode}/{Type}/{SequenceNumber}/Download | Basic - Get the bytes of a document.  WARNING: The API help page does not react well to large (500+ characters) data strings.  We suggest using a seperate app to test adding/editing/downloading document data.
-[**documentsGetDocument**](DocumentsApi.md#documentsGetDocument) | **GET** /api/v1/Documents/{OrgCode}/{Type}/{SequenceNumber} | Basic - Get a single Document entry by its parameters.  To download a document file, use the /Download endpoint
-[**documentsGetDocumentList**](DocumentsApi.md#documentsGetDocumentList) | **GET** /api/v1/Documents/{OrgCode} | Basic - Search for document entries using OData.
-[**documentsPostDocument**](DocumentsApi.md#documentsPostDocument) | **POST** /api/v1/Documents | Standard - Add a Document entry in Ungerboeck.  You need to fill NewDocumentData and NewFilename with the document file to import.   WARNING: The API help page does not react well to large (500+ characters) data strings.  We suggest using a seperate app to test adding/editing/downloading document data.
-[**documentsPutDocument**](DocumentsApi.md#documentsPutDocument) | **PUT** /api/v1/Documents/{OrgCode}/{Type}/{SequenceNumber} | Standard - Edit a Document entry properties.  You can use NewDocumentData and NewFilename to update the document file with an imported document.  WARNING: The API help page does not react well to large (500+ characters) data strings.  We suggest using a seperate app to test adding/editing/downloading document data.
+[**documentsDeleteDocument**](DocumentsApi.md#documentsDeleteDocument) | **DELETE** /api/v1/Documents/{OrgCode}/{Type}/{SequenceNumber} | Delete a Document entry from Ungerboeck
+[**documentsDownload**](DocumentsApi.md#documentsDownload) | **GET** /api/v1/Documents/{OrgCode}/{Type}/{SequenceNumber}/Download | Get the bytes of a document
+[**documentsGetDocument**](DocumentsApi.md#documentsGetDocument) | **GET** /api/v1/Documents/{OrgCode}/{Type}/{SequenceNumber} | Get a Document entry by its parameters.  To download a document file, use the /Download endpoint
+[**documentsGetDocumentsList**](DocumentsApi.md#documentsGetDocumentsList) | **GET** /api/v1/Documents/{OrgCode} | Search for document entries using OData.
+[**documentsPostDocument**](DocumentsApi.md#documentsPostDocument) | **POST** /api/v1/Documents | Add a Document entry in Ungerboeck.  You need to fill NewDocumentData and NewFilename with the document file to import.
+[**documentsPutDocument**](DocumentsApi.md#documentsPutDocument) | **PUT** /api/v1/Documents/{OrgCode}/{Type}/{SequenceNumber} | Edit a Document entry properties.  You can use NewDocumentData and NewFilename to update the document file with an imported document.
 
 
 # **documentsDeleteDocument**
 > documentsDeleteDocument($org_code, $type, $sequence_number)
 
-Standard - Delete a Document entry from Ungerboeck
+Delete a Document entry from Ungerboeck
 
 ### Example
 ```php
@@ -63,9 +63,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **documentsDownload**
-> string documentsDownload($org_code, $type, $sequence_number)
+> object documentsDownload($org_code, $type, $sequence_number)
 
-Basic - Get the bytes of a document.  WARNING: The API help page does not react well to large (500+ characters) data strings.  We suggest using a seperate app to test adding/editing/downloading document data.
+Get the bytes of a document
 
 ### Example
 ```php
@@ -100,7 +100,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**string**
+**object**
 
 ### Authorization
 
@@ -116,7 +116,7 @@ No authorization required
 # **documentsGetDocument**
 > \FomF\Ungerboeck\Client\Model\DocumentsModel documentsGetDocument($org_code, $type, $sequence_number)
 
-Basic - Get a single Document entry by its parameters.  To download a document file, use the /Download endpoint
+Get a Document entry by its parameters.  To download a document file, use the /Download endpoint
 
 ### Example
 ```php
@@ -164,10 +164,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **documentsGetDocumentList**
-> \FomF\Ungerboeck\Client\Model\DocumentsModel documentsGetDocumentList($org_code, $search)
+# **documentsGetDocumentsList**
+> \FomF\Ungerboeck\Client\Model\DocumentsModel[] documentsGetDocumentsList($org_code, $search)
 
-Basic - Search for document entries using OData.
+Search for document entries using OData.
 
 ### Example
 ```php
@@ -180,13 +180,13 @@ $apiInstance = new FomF\Ungerboeck\Client\Api\DocumentsApi(
     new GuzzleHttp\Client()
 );
 $org_code = "org_code_example"; // string | The organization code in which the search will take place
-$search = "search_example"; // string | <a href=\"https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\">How to make an Ungerboeck API search</a>
+$search = "search_example"; // string | Search string using OData with model properties for the filter, Page and Page_Size to navigate
 
 try {
-    $result = $apiInstance->documentsGetDocumentList($org_code, $search);
+    $result = $apiInstance->documentsGetDocumentsList($org_code, $search);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling DocumentsApi->documentsGetDocumentList: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling DocumentsApi->documentsGetDocumentsList: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -196,11 +196,11 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **org_code** | **string**| The organization code in which the search will take place |
- **search** | **string**| &lt;a href&#x3D;\&quot;https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\&quot;&gt;How to make an Ungerboeck API search&lt;/a&gt; |
+ **search** | **string**| Search string using OData with model properties for the filter, Page and Page_Size to navigate |
 
 ### Return type
 
-[**\FomF\Ungerboeck\Client\Model\DocumentsModel**](../Model/DocumentsModel.md)
+[**\FomF\Ungerboeck\Client\Model\DocumentsModel[]**](../Model/DocumentsModel.md)
 
 ### Authorization
 
@@ -216,7 +216,7 @@ No authorization required
 # **documentsPostDocument**
 > \FomF\Ungerboeck\Client\Model\DocumentsModel documentsPostDocument($data)
 
-Standard - Add a Document entry in Ungerboeck.  You need to fill NewDocumentData and NewFilename with the document file to import.   WARNING: The API help page does not react well to large (500+ characters) data strings.  We suggest using a seperate app to test adding/editing/downloading document data.
+Add a Document entry in Ungerboeck.  You need to fill NewDocumentData and NewFilename with the document file to import.
 
 ### Example
 ```php
@@ -263,7 +263,7 @@ No authorization required
 # **documentsPutDocument**
 > \FomF\Ungerboeck\Client\Model\DocumentsModel documentsPutDocument($org_code, $type, $sequence_number, $data)
 
-Standard - Edit a Document entry properties.  You can use NewDocumentData and NewFilename to update the document file with an imported document.  WARNING: The API help page does not react well to large (500+ characters) data strings.  We suggest using a seperate app to test adding/editing/downloading document data.
+Edit a Document entry properties.  You can use NewDocumentData and NewFilename to update the document file with an imported document.
 
 ### Example
 ```php

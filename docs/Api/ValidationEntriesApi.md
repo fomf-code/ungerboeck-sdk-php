@@ -4,14 +4,14 @@ All URIs are relative to *https://fomf.ungerboeck.com/TEST*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**validationEntriesGetValidationEntry**](ValidationEntriesApi.md#validationEntriesGetValidationEntry) | **GET** /api/v1/ValidationEntries/{OrgCode}/{ValidationTableID}/{SequenceNumber} | Basic - Get a single validation entry by its parameters
-[**validationEntriesGetValidationEntryList**](ValidationEntriesApi.md#validationEntriesGetValidationEntryList) | **GET** /api/v1/ValidationEntries/{OrgCode} | Basic - Search for validation entries using OData.
+[**validationEntriesGetValidationEntries**](ValidationEntriesApi.md#validationEntriesGetValidationEntries) | **GET** /api/v1/ValidationEntries/{OrgCode}/{ValidationTableID}/{SequenceNumber} | Get a validation entry by its parameters
+[**validationEntriesGetValidationEntriesList**](ValidationEntriesApi.md#validationEntriesGetValidationEntriesList) | **GET** /api/v1/ValidationEntries/{OrgCode} | Search for validation entries using OData.
 
 
-# **validationEntriesGetValidationEntry**
-> \FomF\Ungerboeck\Client\Model\ValidationEntriesModel validationEntriesGetValidationEntry($org_code, $validation_table_id, $sequence_number)
+# **validationEntriesGetValidationEntries**
+> \FomF\Ungerboeck\Client\Model\ValidationEntriesModel validationEntriesGetValidationEntries($org_code, $validation_table_id, $sequence_number)
 
-Basic - Get a single validation entry by its parameters
+Get a validation entry by its parameters
 
 ### Example
 ```php
@@ -28,10 +28,10 @@ $validation_table_id = 56; // int | The validation table ID of the validation en
 $sequence_number = 56; // int | The sequence number of the validation entry.
 
 try {
-    $result = $apiInstance->validationEntriesGetValidationEntry($org_code, $validation_table_id, $sequence_number);
+    $result = $apiInstance->validationEntriesGetValidationEntries($org_code, $validation_table_id, $sequence_number);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling ValidationEntriesApi->validationEntriesGetValidationEntry: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling ValidationEntriesApi->validationEntriesGetValidationEntries: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -59,10 +59,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **validationEntriesGetValidationEntryList**
-> \FomF\Ungerboeck\Client\Model\ValidationEntriesModel validationEntriesGetValidationEntryList($org_code, $search)
+# **validationEntriesGetValidationEntriesList**
+> \FomF\Ungerboeck\Client\Model\ValidationEntriesModel[] validationEntriesGetValidationEntriesList($org_code, $search)
 
-Basic - Search for validation entries using OData.
+Search for validation entries using OData.
 
 ### Example
 ```php
@@ -75,13 +75,13 @@ $apiInstance = new FomF\Ungerboeck\Client\Api\ValidationEntriesApi(
     new GuzzleHttp\Client()
 );
 $org_code = "org_code_example"; // string | The organization code in which the search will take place
-$search = "search_example"; // string | <a href=\"https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\">How to make an Ungerboeck API search</a>
+$search = "search_example"; // string | Search string using OData with model properties for the filter, Page and Page_Size to navigate
 
 try {
-    $result = $apiInstance->validationEntriesGetValidationEntryList($org_code, $search);
+    $result = $apiInstance->validationEntriesGetValidationEntriesList($org_code, $search);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling ValidationEntriesApi->validationEntriesGetValidationEntryList: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling ValidationEntriesApi->validationEntriesGetValidationEntriesList: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -91,11 +91,11 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **org_code** | **string**| The organization code in which the search will take place |
- **search** | **string**| &lt;a href&#x3D;\&quot;https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\&quot;&gt;How to make an Ungerboeck API search&lt;/a&gt; |
+ **search** | **string**| Search string using OData with model properties for the filter, Page and Page_Size to navigate |
 
 ### Return type
 
-[**\FomF\Ungerboeck\Client\Model\ValidationEntriesModel**](../Model/ValidationEntriesModel.md)
+[**\FomF\Ungerboeck\Client\Model\ValidationEntriesModel[]**](../Model/ValidationEntriesModel.md)
 
 ### Authorization
 

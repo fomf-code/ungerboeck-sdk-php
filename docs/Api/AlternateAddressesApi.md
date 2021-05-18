@@ -4,14 +4,14 @@ All URIs are relative to *https://fomf.ungerboeck.com/TEST*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**alternateAddressesGetAlternateAddress**](AlternateAddressesApi.md#alternateAddressesGetAlternateAddress) | **GET** /api/v1/AlternateAddresses/{OrgCode}/{Account}/{SequenceNumber}/{RecordType} | Basic - Get a single alternate address by its parameters
-[**alternateAddressesGetAlternateAddressList**](AlternateAddressesApi.md#alternateAddressesGetAlternateAddressList) | **GET** /api/v1/AlternateAddresses/{OrgCode} | Basic - Search for alternate address using OData.
+[**alternateAddressesGetAlternateAddresses**](AlternateAddressesApi.md#alternateAddressesGetAlternateAddresses) | **GET** /api/v1/AlternateAddresses/{OrgCode}/{Account}/{SequenceNumber}/{RecordType} | Get a alternate address by its parameters
+[**alternateAddressesGetAlternateAddressesList**](AlternateAddressesApi.md#alternateAddressesGetAlternateAddressesList) | **GET** /api/v1/AlternateAddresses/{OrgCode} | Search for alternate address using OData.
 
 
-# **alternateAddressesGetAlternateAddress**
-> \FomF\Ungerboeck\Client\Model\AlternateAddressesModel alternateAddressesGetAlternateAddress($org_code, $account, $sequence_number, $record_type)
+# **alternateAddressesGetAlternateAddresses**
+> \FomF\Ungerboeck\Client\Model\AlternateAddressesModel alternateAddressesGetAlternateAddresses($org_code, $account, $sequence_number, $record_type)
 
-Basic - Get a single alternate address by its parameters
+Get a alternate address by its parameters
 
 ### Example
 ```php
@@ -29,10 +29,10 @@ $sequence_number = 56; // int | The sequence number of the alternate address.
 $record_type = "record_type_example"; // string | The record type of the alternate address.
 
 try {
-    $result = $apiInstance->alternateAddressesGetAlternateAddress($org_code, $account, $sequence_number, $record_type);
+    $result = $apiInstance->alternateAddressesGetAlternateAddresses($org_code, $account, $sequence_number, $record_type);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling AlternateAddressesApi->alternateAddressesGetAlternateAddress: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling AlternateAddressesApi->alternateAddressesGetAlternateAddresses: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -61,10 +61,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **alternateAddressesGetAlternateAddressList**
-> \FomF\Ungerboeck\Client\Model\AlternateAddressesModel alternateAddressesGetAlternateAddressList($org_code, $search)
+# **alternateAddressesGetAlternateAddressesList**
+> \FomF\Ungerboeck\Client\Model\AlternateAddressesModel[] alternateAddressesGetAlternateAddressesList($org_code, $search)
 
-Basic - Search for alternate address using OData.
+Search for alternate address using OData.
 
 ### Example
 ```php
@@ -77,13 +77,13 @@ $apiInstance = new FomF\Ungerboeck\Client\Api\AlternateAddressesApi(
     new GuzzleHttp\Client()
 );
 $org_code = "org_code_example"; // string | The organization code in which the search will take place
-$search = "search_example"; // string | <a href=\"https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\">How to make an Ungerboeck API search</a>
+$search = "search_example"; // string | Search string using OData with model properties for the filter, Page and Page_Size to navigate
 
 try {
-    $result = $apiInstance->alternateAddressesGetAlternateAddressList($org_code, $search);
+    $result = $apiInstance->alternateAddressesGetAlternateAddressesList($org_code, $search);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling AlternateAddressesApi->alternateAddressesGetAlternateAddressList: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling AlternateAddressesApi->alternateAddressesGetAlternateAddressesList: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -93,11 +93,11 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **org_code** | **string**| The organization code in which the search will take place |
- **search** | **string**| &lt;a href&#x3D;\&quot;https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API\&quot;&gt;How to make an Ungerboeck API search&lt;/a&gt; |
+ **search** | **string**| Search string using OData with model properties for the filter, Page and Page_Size to navigate |
 
 ### Return type
 
-[**\FomF\Ungerboeck\Client\Model\AlternateAddressesModel**](../Model/AlternateAddressesModel.md)
+[**\FomF\Ungerboeck\Client\Model\AlternateAddressesModel[]**](../Model/AlternateAddressesModel.md)
 
 ### Authorization
 
