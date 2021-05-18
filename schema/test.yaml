@@ -1,0 +1,3449 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: Ungerboeck API
+host: fomf.ungerboeck.com
+basePath: /TEST
+schemes:
+  - https
+paths:
+  '/api/v1/Accounts/{OrgCode}':
+    get:
+      tags:
+        - Accounts
+      summary: >-
+        Basic - Search for accounts using OData.  Note, this will not return
+        user fields.  Use the single GET endpoint to retrieve user fields.
+      operationId: Accounts_GetAccountList
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: OrgCode
+          in: path
+          description: The organization code in which the search will take place
+          required: true
+          type: string
+        - name: search
+          in: query
+          description: >-
+            <a
+            href="https://supportcenter.ungerboeck.com/hc/en-us/articles/115010610608-Searching-Using-the-API">How
+            to make an Ungerboeck API search</a>
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AllAccountsModel'
+          examples:
+            application/json:
+              - Organization: '10'
+                AccountCode: ANA
+                FirstName: Ana
+                LastName: Amari
+                EnteredBy: JEFFK
+                EnteredOn: '2021-09-11T08:37:50.4667041+02:00'
+                ChangedBy: JEFFK
+                ChangedOn: '2021-09-11T08:37:50.4667041+02:00'
+              - Organization: '10'
+                AccountCode: '76'
+                FirstName: Jack
+                LastName: Morrison
+                EnteredBy: JEFFK
+                EnteredOn: '2021-09-11T08:37:50.4667041+02:00'
+                ChangedBy: JEFFK
+                ChangedOn: '2021-09-11T08:37:50.4667041+02:00'
+  '/api/v1/Accounts/{OrgCode}/{AccountCode}':
+    get:
+      tags:
+        - Accounts
+      summary: Basic - Get a single account by its parameters
+      operationId: Accounts_GetAccount
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: OrgCode
+          in: path
+          description: The Organization Code of the account.
+          required: true
+          type: string
+        - name: AccountCode
+          in: path
+          description: The Account Code of the account.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AllAccountsModel'
+          examples:
+            application/json:
+              Organization: '10'
+              AccountCode: ANA
+              FirstName: Ana
+              LastName: Amari
+              EnteredBy: JEFFK
+              EnteredOn: '2021-09-11T08:37:50.5135835+02:00'
+              ChangedBy: JEFFK
+              ChangedOn: '2021-09-11T08:37:50.5135835+02:00'
+definitions:
+  AccountAffiliationsModel:
+    title: AccountAffiliationsModel
+    description: This represents an affiliation attachment to an account
+    required:
+      - OrganizationCode
+      - AccountCode
+      - AffiliationCode
+      - LastChangedDateTime
+      - LastChangedByUserID
+      - EnteredDateTime
+      - EnteredByUserID
+    type: object
+    properties:
+      OrganizationCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Indentifier - Use for GET and
+          PUT URLs  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV897_ORG_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Indentifier - Use for GET and
+          PUT URLs  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV897_EXT_ACCT_CODE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AffiliationCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Indentifier - Use for GET and
+          PUT URLs  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV897_AFFIL_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LastChangedDateTime:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Automatically set by API.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV897_UPD_DATE  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Read Only</span>  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LastChangedByUserID:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Automatically set by API.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV897_UPD_USER_ID  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      EnteredDateTime:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Automatically set by API.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV897_ENT_DATE  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Read Only</span>  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      EnteredByUserID:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Automatically set by API.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV897_ENT_USER_ID  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+  AccountLeadsModel:
+    title: AccountLeadsModel
+    description: ''
+    required:
+      - LeadID
+      - OrganizationCode
+      - Account
+      - CompanyName
+      - CompanyAddressLine1
+      - CompanyAddressLine2
+      - CompanyAddressLine3
+      - CompanyAddressLine4
+      - CompanyAddressLine5
+      - CompanyAddressLine6
+      - CompanyCity
+      - CompanyState
+      - CompanyPostalCode
+      - CompanyCountry
+      - CompanyWebsite
+      - CompanyMainPhone
+      - CompanyMainFax
+      - CompanyEFax
+      - CompanyRegion
+      - AccountRep
+      - AccountRep2
+      - AccountRep3
+      - ContactFirstName
+      - ContactMiddleInitial
+      - ContactLastName
+      - ContactSecondLastName
+      - ContactPrefix
+      - ContactSuffix
+      - ContactSalutation
+      - ContactAddressLine1
+      - ContactAddressLine2
+      - ContactAddressLine3
+      - ContactAddressLine4
+      - ContactAddressLine5
+      - ContactAddressLine6
+      - ContactCity
+      - ContactState
+      - ContactPostalCode
+      - ContactCountry
+      - ContactMobile
+      - ContactPersonalPhone
+      - ContactEmail
+      - ContactTitle
+      - ContactSecondTitle
+      - ContactGender
+      - EventSales
+      - TourSales
+      - PublicRelations
+      - Membership
+      - Receivables
+      - Payables
+      - VisitorInquiry
+      - Registration
+      - Personnel
+      - Speaker
+      - Facebook
+      - Twitter
+      - LinkedIn
+      - EnteredBy
+      - ChangedBy
+      - ConvertedOn
+      - ConvertedBy
+      - Contact
+      - Language
+      - CampaignSource
+      - LeadSource
+      - BusinessCard
+      - LeadStatus
+      - Summary
+      - Gender
+    type: object
+    properties:
+      LeadID:
+        format: int32
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_LEAD_ID  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: integer
+      OrganizationCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_ORG_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 2  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Account:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_ACCT_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyName:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMPANY_NAME  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyAddressLine1:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_ADDR_L1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyAddressLine2:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_ADDR_L2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyAddressLine3:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_ADDR_L3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyAddressLine4:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_ADDR_L4  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyAddressLine5:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_ADDR_L5  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyAddressLine6:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_ADDR_L6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyCity:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_CITY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 50  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyState:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_STATE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 5  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyPostalCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_POSTAL_CODE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 25  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyCountry:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_COUNTRY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyWebsite:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_WEBSITE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyMainPhone:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_MAIN_PHONE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyMainFax:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_MAIN_FAX
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyEFax:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_EFAX  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CompanyRegion:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_COMP_REGION  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 4  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountRep:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_REP_CODE_1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountRep2:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_REP_CODE_2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountRep3:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_REP_CODE_3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactFirstName:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_FNAME  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 70  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactMiddleInitial:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_MI  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactLastName:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_LNAME  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 70  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactSecondLastName:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_LNAME_2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 70  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactPrefix:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_PREFIX  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactSuffix:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_SUFFIX  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactSalutation:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_SALUTATION
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactAddressLine1:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_ADDR_L1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactAddressLine2:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_ADDR_L2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactAddressLine3:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_ADDR_L3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactAddressLine4:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_ADDR_L4  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactAddressLine5:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_ADDR_L5  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactAddressLine6:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_ADDR_L6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactCity:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_CITY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 50  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactState:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_STATE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 5  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactPostalCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_POSTAL_CODE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 25  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactCountry:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_COUNTRY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactMobile:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_MOBILE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactPersonalPhone:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_PERS_PHONE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactEmail:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_EMAIL_ADDR
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactTitle:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_TITLE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactSecondTitle:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_TITLE_2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ContactGender:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_GENDER  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      EventSales:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_EVT_SALES_STS
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      TourSales:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_TOUR_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      PublicRelations:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_PUBREL_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Membership:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_MEMBER_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Receivables:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_AR_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Payables:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_AP_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      VisitorInquiry:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_VISITOR_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Registration:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_REGIS_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Personnel:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_PERS_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Speaker:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_SPEAKER_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Facebook:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_SOCIAL_NETWORK_1
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 255  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Twitter:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_SOCIAL_NETWORK_2
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 255  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LinkedIn:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_SOCIAL_NETWORK_3
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 255  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      EnteredBy:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_ENT_USER_ID  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ChangedBy:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_UPD_USER_ID  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ConvertedOn:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONVERT_STAMP
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ConvertedBy:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONVERT_USER_ID
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Contact:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_CONT_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Language:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_LANG_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      CampaignSource:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_PRJ_ID  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LeadSource:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_LEAD_SRC  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      BusinessCard:
+        format: byte
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_BUSINESS_CARD
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LeadStatus:
+        format: int32
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_LEAD_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: integer
+      Summary:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_SUMMARY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Gender:
+        format: int32
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR870_GENDER_ID  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: integer
+  AccountMailingListsModel:
+    title: AccountMailingListsModel
+    description: ''
+    required:
+      - ID
+      - OrganizationCode
+      - Account
+      - MailingList
+      - EnteredOn
+      - EnteredBy
+      - ChangedOn
+      - ChangedBy
+      - ExternalCode
+      - Status
+    type: object
+    properties:
+      ID:
+        format: int32
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_ID  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: integer
+      OrganizationCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_ORG_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 2  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Account:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_EXT_ACCT_CODE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MailingList:
+        format: int32
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_MAIL_CODE_ID  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: integer
+      EnteredOn:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_ENT_STAMP  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      EnteredBy:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_ENT_USER  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ChangedOn:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_UPD_STAMP  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ChangedBy:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_UPD_USER  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ExternalCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_EXTERNAL_CODE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 255  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Status:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> CR110_STATUS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 15  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+  AccountsProductsAndServicesModel:
+    title: AccountsProductsAndServicesModel
+    description: This represents a product/service attachment to an account
+    required:
+      - OrganizationCode
+      - AccountCode
+      - ProductServiceCode
+    type: object
+    properties:
+      OrganizationCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Indentifier - Use for GET and
+          PUT URLs  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> CR126_ORG_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Indentifier - Use for GET and
+          PUT URLs  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> CR126_EXT_ACCT_CODE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ProductServiceCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Indentifier - Use for GET and
+          PUT URLs  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> CR126_PROD_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 24  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+  AllAccountsModel:
+    title: AllAccountsModel
+    description: This represents an account
+    required:
+      - Organization
+      - AccountCode
+      - MiddleInitial
+      - FirstName
+      - LastName
+      - Name
+      - Search
+      - Salutation
+      - Title
+      - Address1
+      - Address2
+      - Address3
+      - Address4
+      - Address5
+      - Address6
+      - City
+      - State
+      - PostalCode
+      - Country
+      - Region
+      - Keyword
+      - Keyword2
+      - LegalName
+      - Nickname
+      - Class
+      - Phone
+      - Fax
+      - Mobile
+      - Direct
+      - MarketSegmentMajor
+      - MarketSegmentMinor
+      - Email
+      - Website
+      - Company
+      - SecondLastName
+      - Prefix
+      - Suffix
+      - Type
+      - AccountRep
+      - EnteredBy
+      - EnteredOn
+      - Status
+      - DirectMailOptIn
+      - ChangedBy
+      - ChangedOn
+      - Position
+      - BirthDate
+      - Gender
+      - Language
+      - EFax
+      - Department
+      - SecondTitle
+      - Acronym
+      - MarketSize
+      - TaxID
+      - ARControl
+      - Privileged
+      - UserID
+      - IACVB
+      - LanguagePreference
+      - MultiOrgAccount
+      - PersonnelPosition
+      - PersonnelDepartment
+      - SynchronizedOrganization
+      - SynchronizedAccount
+      - SynchronizationStatus
+      - BirthPlace
+      - Nationality
+      - IdentificationNbr
+      - Select
+      - Accuracy
+      - InternetLogon
+      - MarketSizeUM
+      - ExternalCode
+      - EventSalesStatus
+      - TourSales
+      - PublicRelations
+      - Membership
+      - Receivables
+      - Payables
+      - VisitorInquiry
+      - Registration
+      - Personnel
+      - Speaker
+      - AccountRep2
+      - AccountRep3
+      - MainAccount
+      - TaxScheme
+      - TaxRegistrationStatus
+      - PreferredContactMethod
+      - Facebook
+      - Twitter
+      - LinkedIn
+      - PrimaryAccount
+      - AnnualRevenue
+      - NumberofEmployees
+      - GenderID
+      - MemberType
+      - MemberStatus
+      - MemberStatusDate
+      - LastBilledDate
+      - LastBilledAmount
+      - LastPaidDate
+      - LastPaidAmount
+      - MemberSince
+      - MemberInactiveDate
+      - MemberCategory
+      - MemberRank
+      - MemberTypeDate
+      - MemberCategoryDate
+      - ReasonApplicationCode
+      - MemberReason
+      - AccountUserFieldSets
+    type: object
+    properties:
+      Organization:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This is used to identify an
+          account.  Use on the URL for GET or PUT commands.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_ORG_CODE  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This is used to identify an
+          account.  Use on the URL for GET or PUT commands.  Also, setting this
+          to "*AUTO" when adding new account will make the code auto-generated
+          if this is configured in Ungerboeck.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_ACCT_CODE  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MiddleInitial:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Used for individual accounts
+          only.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_MIDDLE_INITIAL
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      FirstName:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_FIRST_NAME  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 70  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LastName:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Cannot be blank for individual
+          accounts  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_LAST_NAME  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 70  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Name:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Cannot be blank for
+          organization accounts.  This will fill in automatically for individual
+          accounts.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_NAME  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Search:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ALPHA_SEARCH_KEY
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 20  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Salutation:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SALUTATION  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Title:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Used for individual accounts
+          only.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_TITLE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Address1:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ADDRESS_L1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Address2:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ADDRESS_L2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Address3:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ADDRESS_L3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Address4:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ADDRESS_L4  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Address5:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ADDRESS_L5  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Address6:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ADDRESS_L6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      City:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_CITY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 50  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      State:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_STATE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 5  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      PostalCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_POSTAL_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 25  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Country:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_COUNTRY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Region:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SALES_REGION  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 4  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Keyword:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_KEYWORD_1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 20  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Keyword2:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_KEYWORD_2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 20  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LegalName:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_LEGAL_NAME  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Nickname:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Used for individual accounts
+          only.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_NICKNAME  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 50  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Class:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This needs to be included when
+          doing a POST or PUT.  An error will occur otherwise.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_CLASS  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Add
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Phone:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Adding/Changing this will
+          modify the associated communication (CC810) record  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_MAIN_PHONE  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Fax:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Adding/Changing this will
+          modify the associated communication (CC810) record  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_MAIN_FAX  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Mobile:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_MOBILE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Direct:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Adding/Changing this will
+          modify the associated communication (CC810) record  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_PERS_PHONE  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MarketSegmentMajor:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_MKT_SEG_1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MarketSegmentMinor:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_MKT_SEG_2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Email:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Adding/Changing this will
+          modify the associated communication (CC810) record  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_EMAIL_ADDRESS  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Website:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Adding/Changing this will
+          modify the associated communication (CC810) record  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_WEB_ADDRESS  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Company:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Note that this is the company
+          name, and not the account code of the company.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_COMPANY_NAME  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      SecondLastName:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Used for individual accounts
+          only.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_LAST_NAME2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 70  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Prefix:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_PREFIX  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Suffix:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SUFFIX  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Type:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_TYPE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountRep:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_REP_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      EnteredBy:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Automatically set by API  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_ENTER_USERID  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      EnteredOn:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Automatically set by API  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_ENTER_STAMP  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Read Only</span>  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Status:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_STATUS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      DirectMailOptIn:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Adding/Changing this will
+          modify the associated communication (CC810) record  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_DIRECT_MAIL  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ChangedBy:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Automatically set by API  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_UPD_USERID  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ChangedOn:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Automatically set by API  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_UPD_STAMP  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Read Only</span>  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Position:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_POSITION  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      BirthDate:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_BIRTHDAY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Gender:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Contains the code for the
+          gender of the person 'M', 'F', 'O'.  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Database column:</span> EV870_GENDER  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Language:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_LANG_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      EFax:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Adding/Changing this will
+          modify the associated communication (CC810) record  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_EFAX_ADDRESS  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 150  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Department:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_DEPT  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      SecondTitle:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Used for individual accounts
+          only.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_TITLE_2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 100  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Acronym:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ACRONYM  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MarketSize:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_MKT_SIZE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 152  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      TaxID:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_TAX_ID  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 20  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ARControl:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ACCT_SECURITY
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Privileged:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_PRIVILEGED  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserID:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Note that this should be filled
+          in for personnel accounts only  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Database column:</span> EV870_USERID  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      IACVB:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_IACVB_CODE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 20  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LanguagePreference:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_LANG_PREF  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MultiOrgAccount:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_MULTI_ORG_ACCT
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 20  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      PersonnelPosition:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Note that this should be filled
+          in for personnel accounts only  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Database column:</span>
+          EV870_PRS_POSITION  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      PersonnelDepartment:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Note that this should be filled
+          in for personnel accounts only  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Database column:</span> EV870_PRS_DEPT
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      SynchronizedOrganization:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SYNC_ORG  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 2  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      SynchronizedAccount:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SYNC_ACCT  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      SynchronizationStatus:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SYNC_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      BirthPlace:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_BIRTH_PLACE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 200  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Nationality:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_NATIONALITY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      IdentificationNbr:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ID_NBR  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 200  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Select:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SELECT  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Accuracy:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ACCURACY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      InternetLogon:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_INET_LOGON  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MarketSizeUM:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_MKT_SIZE_UOM  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ExternalCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_EXTERNAL_CODE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 40  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      EventSalesStatus:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_EVT_SALES_STS
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      TourSales:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_TOUR_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      PublicRelations:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_PUBREL_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Membership:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_MEMBER_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Receivables:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_AR_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Payables:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_AP_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      VisitorInquiry:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_VISITOR_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Registration:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_REGIS_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Personnel:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_PERS_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Speaker:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> You can set this to the code
+          value of the Account Status.  At least one designation needs to be set
+          on a new account.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_SPKR_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountRep2:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_REP_CODE_2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountRep3:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_REP_CODE_3  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MainAccount:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This is affected by adding
+          relationships.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> EV870_MAIN_ACCT  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      TaxScheme:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_TAX_SCHEME  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 12  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      TaxRegistrationStatus:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_TAX_REG_STS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      PreferredContactMethod:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_PREF_CNTCT_METHOD
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 4  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Facebook:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SOCIAL_NETWORK_1
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 255  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      Twitter:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SOCIAL_NETWORK_2
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 255  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LinkedIn:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_SOCIAL_NETWORK_3
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 255  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      PrimaryAccount:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> If you want to add a primary
+          account, use the API to add a master account relationship.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_PRIMARY_ACCT  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 8  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AnnualRevenue:
+        format: int32
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_ANNUAL_REVENUE
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: integer
+      NumberofEmployees:
+        format: int32
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span> EV870_NUM_EMPLOYEES
+          <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: integer
+      GenderID:
+        format: int32
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> Contains IDs for the gender of
+          a person from the customizable gender table.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> EV870_GENDER_ID  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: integer
+      MemberType:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_MEMBER_TYPE  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MemberStatus:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_MEMBER_STS  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 1  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MemberStatusDate:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_STS_DATE  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LastBilledDate:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_LAST_BILLED_DATE  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LastBilledAmount:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_LAST_BILLED_AMT  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 92  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      LastPaidDate:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_LAST_PAID_DATE  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      LastPaidAmount:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_LAST_PAID_AMT  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 92  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      MemberSince:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_MBR_SINCE_DATE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MemberInactiveDate:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_INACTIVE_DATE  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Read
+          Only</span>  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MemberCategory:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_MBR_CATEGORY  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 6  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MemberRank:
+        format: int32
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_MBR_RANK  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: integer
+      MemberTypeDate:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_MBR_TYPE_DATE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MemberCategoryDate:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_MBR_CAT_DATE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      ReasonApplicationCode:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_REASON_APPL  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      MemberReason:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">Database column:</span>
+          EV885_MEMBER_INFO_EV885_REASON_CODE  <div class="TooltipSpace"></div>
+          <span class="tooltipHeader">Length:</span> 2  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      AccountUserFieldSets:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This holds the list of Account
+          User Field set values.  This is not filled on searches unless
+          explicitly requested in the SELECT OData query.  <div
+          class="TooltipSpace"></div>  <span class="tooltipHeader">Database
+          column:</span> CR073_ISSUES Table</span></div>
+        type: array
+        items:
+          $ref: '#/definitions/UserFields'
+  UserFields:
+    title: UserFields
+    required:
+      - Header
+      - Class
+      - Type
+      - UserNumber01
+      - UserNumber02
+      - UserNumber03
+      - UserNumber04
+      - UserNumber05
+      - UserNumber06
+      - UserNumber07
+      - UserNumber08
+      - UserNumber09
+      - UserNumber10
+      - UserNumber11
+      - UserNumber12
+      - UserNumber13
+      - UserNumber14
+      - UserNumber15
+      - UserNumber16
+      - UserNumber17
+      - UserNumber18
+      - UserNumber19
+      - UserNumber20
+      - UserNumber21
+      - UserNumber22
+      - UserNumber23
+      - UserNumber24
+      - UserNumber25
+      - UserNumber26
+      - UserNumber27
+      - UserNumber28
+      - UserNumber29
+      - UserNumber30
+      - UserDateTime01
+      - UserDateTime02
+      - UserDateTime03
+      - UserDateTime04
+      - UserDateTime05
+      - UserDateTime06
+      - UserDateTime07
+      - UserDateTime08
+      - UserDateTime09
+      - UserDateTime10
+      - UserDateTime11
+      - UserDateTime12
+      - UserDateTime13
+      - UserDateTime14
+      - UserDateTime15
+      - UserDateTime16
+      - UserDateTime17
+      - UserDateTime18
+      - UserDateTime19
+      - UserDateTime20
+      - UserText01
+      - UserText02
+      - UserText03
+      - UserText04
+      - UserText05
+      - UserText06
+      - UserText07
+      - UserText08
+      - UserText09
+      - UserText10
+      - UserText11
+      - UserText12
+      - UserText13
+      - UserText14
+      - UserText15
+      - UserText16
+      - UserText17
+      - UserText18
+      - UserText19
+      - UserText20
+      - UserText21
+      - UserText22
+      - UserText23
+      - UserText24
+      - UserText25
+      - UserText26
+      - UserText27
+      - UserText28
+      - UserText29
+      - UserText30
+      - UserText31
+      - UserText32
+      - UserText33
+      - UserText34
+      - UserText35
+      - UserText36
+      - UserText37
+      - UserText38
+      - UserText39
+      - UserText40
+      - UserText41
+      - UserText42
+      - UserText43
+      - UserText44
+      - UserText45
+      - UserText46
+      - UserText47
+      - UserText48
+      - UserText49
+      - UserText50
+    type: object
+    properties:
+      Header:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> (Account UDFs Only) This should
+          be "OrgAccountUDF" for Organization Accounts and "IndivAccountUDF" for
+          Individual Accounts.  If using the SDK, use the
+          UngerboeckSDKPackage.USISDKConstants.UserFieldHeaders class to fill
+          this in.  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> N/A  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 10</span></div>
+        type: string
+      Class:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the designation
+          of the User Field set  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> ISSUE_CLASS  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 1</span></div>
+        type: string
+      Type:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the type of the
+          User Field set  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> ISSUE_TYPE  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 2</span></div>
+        type: string
+      UserNumber01:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_01  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber02:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_02  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber03:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_03  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber04:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_04  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber05:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_05  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber06:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_06  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber07:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_07  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber08:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_08  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber09:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_09  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber10:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber11:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_11  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber12:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_12  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber13:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_13  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber14:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_14  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber15:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_15  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber16:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_16  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber17:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_17  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber18:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_18  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber19:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_19  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber20:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_20  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber21:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_21  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber22:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_22  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber23:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_23  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber24:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_24  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber25:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_25  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber26:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_26  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber27:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_27  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber28:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_28  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber29:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_29  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserNumber30:
+        format: double
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> AMT_30  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Length:</span> 154  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: number
+      UserDateTime01:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_01  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime02:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_02  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime03:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_03  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime04:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_04  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime05:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_05  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime06:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_06  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime07:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_07  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime08:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_08  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime09:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_09  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime10:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime11:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_11  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime12:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_12  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime13:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_13  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime14:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_14  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime15:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_15  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime16:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_16  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime17:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_17  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime18:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_18  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime19:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_19  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserDateTime20:
+        format: date-time
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> DTS_20  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText01:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_01  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText02:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_02  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText03:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_03  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText04:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_04  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText05:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_05  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText06:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_06  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText07:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_07  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText08:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_08  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText09:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_09  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText10:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_10  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText11:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_11  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText12:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_12  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText13:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_13  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText14:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_14  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText15:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_15  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText16:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_16  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText17:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_17  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText18:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_18  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText19:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_19  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText20:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_20  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText21:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_21  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText22:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_22  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText23:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_23  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText24:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_24  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText25:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_25  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText26:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_26  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText27:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_27  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText28:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_28  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText29:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_29  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText30:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_30  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText31:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_31  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText32:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_32  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText33:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_33  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText34:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_34  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText35:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_35  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText36:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_36  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText37:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_37  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText38:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_38  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText39:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_39  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText40:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_40  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText41:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_41  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText42:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_42  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText43:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_43  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText44:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_44  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText45:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_45  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText46:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_46  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText47:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_47  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText48:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_48  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText49:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_49  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
+      UserText50:
+        description: >-
+          <div class="tooltip">Info<span class="tooltiptext"><span
+          class="tooltipHeader">API Help:</span> This represents the value on
+          this User Field set column  <div class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Database column:</span> TXT_50  <div
+          class="TooltipSpace"></div>  <span
+          class="tooltipHeader">Searchable</span></span></div>
+        type: string
