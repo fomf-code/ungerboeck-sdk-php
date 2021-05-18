@@ -408,6 +408,47 @@ paths:
               EnteredBy: JEFFK
               ChangedOn: '2021-09-11T08:37:49.4666943+02:00'
               ChangedBy: JEFFK
+    put:
+      tags:
+        - AccountMailingLists
+      summary: Standard - Edit account Mailing list
+      operationId: AccountMailingLists_PutAccountMailingList
+      consumes:
+        - application/json
+        - text/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: OrgCode
+          in: path
+          description: The Organization Code of the Account Mailing list.
+          required: true
+          type: string
+        - name: Id
+          in: path
+          description: The Id of the Account Mailing list.
+          required: true
+          type: integer
+          format: int32
+        - name: data
+          in: body
+          description: (Include in the HTTP Body) a AccountMailingListsModel to update
+          required: true
+          schema:
+            $ref: '#/definitions/AccountMailingListsModel'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AccountMailingListsModel'
+          examples:
+            application/json:
+              ID: 225
+              OrganizationCode: '10'
+              ExternalCode: ABC Code
+              Status: Subscribed
     delete:
       tags:
         - AccountMailingLists
@@ -460,48 +501,6 @@ paths:
               OrganizationCode: '10'
               Account: '15538'
               MailingList: 1
-  '/api/v1/AccountMailingLists/{OrgCode}/{Id}':
-    put:
-      tags:
-        - AccountMailingLists
-      summary: Standard - Edit account Mailing list
-      operationId: AccountMailingLists_PutAccountMailingList
-      consumes:
-        - application/json
-        - text/json
-        - application/x-www-form-urlencoded
-      produces:
-        - application/json
-        - text/json
-      parameters:
-        - name: OrgCode
-          in: path
-          description: The Organization Code of the Account Mailing list.
-          required: true
-          type: string
-        - name: Id
-          in: path
-          description: The Id of the Account Mailing list.
-          required: true
-          type: integer
-          format: int32
-        - name: data
-          in: body
-          description: (Include in the HTTP Body) a AccountMailingListsModel to update
-          required: true
-          schema:
-            $ref: '#/definitions/AccountMailingListsModel'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/AccountMailingListsModel'
-          examples:
-            application/json:
-              ID: 225
-              OrganizationCode: '10'
-              ExternalCode: ABC Code
-              Status: Subscribed
   '/api/v1/AccountProductsAndServices/{OrgCode}':
     get:
       tags:
@@ -4395,7 +4394,6 @@ paths:
               TriangulationCurrencyRate: 1
               ExchangeRateCurrencyCode: '***'
               ExchangeRateOrganizationCode: '**'
-  '/api/v1/CurrencyRates/{currencyCode}/{sequenceNumber}':
     put:
       tags:
         - CurrencyRates
@@ -6718,6 +6716,39 @@ paths:
               Action: A
               Note: Approved
   '/api/v1/ExpenseReportCreditCardDetails/{cardTransactionDetailID}':
+    get:
+      tags:
+        - ExpenseReportCreditCardDetails
+      summary: Standard - Get a single Card Transaction Detail by its parameters
+      operationId: ExpenseReportCreditCardDetails_GetExpenseReportCreditCardDetail
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: CardTransactionDetailID
+          in: path
+          description: >-
+            The Card Transaction Detail ID of the Expense Report Credit Card
+            Details.  Note that since the '\*' character is one of the reserved
+            characters for a URL, the default code (\*\*\*) can't be used here.
+            Instead, use it as a query string parameter:
+            ".../api/v1/ExpenseReportCreditCardDetails?code=***"
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ExpenseReportCreditCardDetailsModel'
+          examples:
+            application/json:
+              CardTransactionDetailID: 2
+              Description: Event Functional Credit Card
+              Date: '2020-10-13T00:00:00'
+              Amount: 142
+              Currency: AUS
     put:
       tags:
         - ExpenseReportCreditCardDetails
@@ -6813,40 +6844,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/ExpenseReportCreditCardDetailsModel'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/ExpenseReportCreditCardDetailsModel'
-          examples:
-            application/json:
-              CardTransactionDetailID: 2
-              Description: Event Functional Credit Card
-              Date: '2020-10-13T00:00:00'
-              Amount: 142
-              Currency: AUS
-  '/api/v1/ExpenseReportCreditCardDetails/{CardTransactionDetailID}':
-    get:
-      tags:
-        - ExpenseReportCreditCardDetails
-      summary: Standard - Get a single Card Transaction Detail by its parameters
-      operationId: ExpenseReportCreditCardDetails_GetExpenseReportCreditCardDetail
-      consumes: []
-      produces:
-        - application/json
-        - text/json
-      parameters:
-        - name: CardTransactionDetailID
-          in: path
-          description: >-
-            The Card Transaction Detail ID of the Expense Report Credit Card
-            Details.  Note that since the '\*' character is one of the reserved
-            characters for a URL, the default code (\*\*\*) can't be used here. 
-            Instead, use it as a query string parameter:
-            ".../api/v1/ExpenseReportCreditCardDetails?code=***"
-          required: true
-          type: integer
-          format: int32
       responses:
         '200':
           description: OK
